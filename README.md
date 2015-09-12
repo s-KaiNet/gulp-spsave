@@ -53,5 +53,7 @@ gulp.task("watch", function(){
 	gulp.watch(["./Scripts/**/*.js"], ["copyToSharePoint"]);
 });
 ```  
+  
+...and any other scenarious you need.
 
 Options for the `spsave` are exactly the same, except `fileName` and `fileContent`, which are parsed by gulp plugin automatically. For list of all options for the `spsave` refer to the [git hub repository](https://github.com/s-KaiNet/spsave).
