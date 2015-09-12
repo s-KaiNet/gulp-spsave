@@ -8,7 +8,7 @@ Gulp plugin for saving files inside SharePoint.
 `npm install gulp-spsave`  
 
 ###Usage:   
-Watch all javascript files and upload them automatically in a folder:
+Watch all javascript files and upload them automatically in a folder (library):
 
 ```javascript
 var spsave = require("gulp-spsave"),
@@ -29,7 +29,7 @@ gulp.task("watch", function(){
 });
 ```   
 
-Bundle and minify your javascript and automatically upload to SharePoint folder:
+Bundle and minify your javascript and automatically upload to SharePoint folder (library):
 
 ```javascript
 gulp.task("build", ["minifyjs"], function(){
