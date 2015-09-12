@@ -29,17 +29,28 @@ gulp.task("watch", function(){
 });
 ```   
 
-Bundle and minify your javascript and automatically upload to SharePoint folder (library):
+Watch for file changes in scripts, then bundle, minify, whatever, and upload to SharePoint automatically:
 
 ```javascript
-gulp.task("build", ["minifyjs"], function(){
-	return gulp.src("./Scripts/build/*.js")
+gulp.task("buildJS", function(){
+	return gulp.src("./Scripts/**/*.js")
+	.pipe(concat())
+	.pipe(uglify())
+	.pipe(gulp.dest("./build"));
+});
+
+gulp.task("copyToSharePoint", ["buildJS"], function(){
+	return gulp.src("./build/*.js")
 		.pipe(spsave({
-				username: "[username]",
-				password: "[password]",
-				siteUrl: "[full site url]",
-				folder: "Site Assets"
-			}));
+			username: settings.username,
+			password: settings.password,
+			siteUrl: settings.siteUrl,
+			folder: "YourAppAssets/js"
+		}));
+});
+
+gulp.task("watch", function(){
+	gulp.watch(["./Scripts/**/*.js"], ["copyToSharePoint"]);
 });
 ```  
 
