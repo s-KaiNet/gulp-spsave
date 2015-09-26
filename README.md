@@ -3,11 +3,13 @@ Gulp plugin for saving files inside SharePoint.
 
 ----------
 
-###Install: 
+Install: 
+---
 
 `npm install gulp-spsave`  
 
-###Usage:   
+Usage:   
+---
 Watch all javascript files and upload them automatically in a folder (library):
 
 ```javascript
