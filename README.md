@@ -58,4 +58,17 @@ gulp.task("watch", function(){
   
 ...and any other scenarious you need.
 
-Options for the `spsave` are exactly the same, except `fileName` and `fileContent`, which are parsed by gulp plugin automatically. For list of all options for the `spsave` refer to the [git hub repository](https://github.com/s-KaiNet/spsave).
+New parameter - `notFlat` set to true to force spsave to add the relative path of streamed file to appear in SharePoint. 
+```javascript
+gulp.src("./dist/**/*")
+.pipe(spsave({
+			username: settings.username,
+			password: settings.password,
+			siteUrl: settings.siteUrl,
+			notFlat: true,
+			folder: "YourAppAssets"
+		}));
+```
+and you got ./dist/styles/style.css - spsave will save this file to SharePoint to "YourAppAssets/styles/style.css"
+
+Options for the `spsave` are exactly the same, except `fileName` and `fileContent` and `notFlat`, which are parsed by gulp plugin automatically. For list of all options for the `spsave` refer to the [git hub repository](https://github.com/s-KaiNet/spsave).

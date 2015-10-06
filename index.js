@@ -22,7 +22,15 @@ function gulpspsave(options) {
 		}
 
 		if (file.isBuffer()) {
-			options.fileName = path.basename(file.path);
+			if (!options.notFlat){
+				options.fileName = path.basename(file.path);
+			} else {
+				var relative = path.relative(file.base, file.path);
+				options.fileName = path.basename(file.path);
+				var addFolder = relative.replace(options.fileName, "");
+				var destFolder = path.join(options.folder, addFolder).replace(/\\/g, '/');
+				options.folder = destFolder;
+			}
 			options.fileContent = file.contents.toString(enc);
 
 			spsave(options, function (err, data) {
