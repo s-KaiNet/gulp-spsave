@@ -1,1 +1,4 @@
 **/node_modules
+.settings
+gulpfile.js
+test
