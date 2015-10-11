@@ -19,7 +19,10 @@ Exactly the same as for [spsave](https://github.com/s-KaiNet/spsave), except:
 
 Examples:
 --    
-	1.Watch for file changes in scripts, then bundle, minify, whatever, and upload to SharePoint automatically:
+1.Watch for file changes in scripts, then bundle, minify, whatever, and upload to SharePoint automatically:
+
+----------
+
 
 ```javascript
 gulp.task("buildJS", function(){
@@ -43,7 +46,10 @@ gulp.task("watch", function(){
 	gulp.watch(["./Scripts/**/*.js"], ["copyToSharePoint"]);
 });
 ```  
-	2.Save all files from `App/build` to SharePoint:
+2.Save all files from `App/build` to SharePoint:
+
+----------
+
 ```javascript
 gulp.task("spsave", function () {
 	return gulp.src(["App/build/*.*"])
@@ -56,7 +62,10 @@ gulp.task("spsave", function () {
 		}));
 });
 ```  
-	3.Watch all javascript file changes in `ng` (stands for angular) folder and upload that file automatically in SharePoint with preserved folder structure: 
+3.Watch all javascript file changes in `ng` (stands for angular) folder and upload that file automatically in SharePoint with preserved folder structure: 
+
+----------
+
 
 ```javascript
 gulp.watch("App/ng/**/*.js", function (event) {
@@ -72,7 +81,12 @@ gulp.watch("App/ng/**/*.js", function (event) {
 	});
 ```  
 In this sample `base` will be equal to `App/ng`. If file path is `App/ng/controllers/HomeCtrl.js`, then it will saved under `AppAssets/controllers/HomeCtrl.js` (if some folders are missing, they will be created by `spsave` automatically). Next sample demonstrate how can you save it under `AppAssets/ng/controllers/HomeCtrl.js` 
-	4.You can also explicitly provide `base` for `gulp.src`:  
+
+4.You can also explicitly provide `base` for `gulp.src`: 
+
+
+----------
+ 
 
 ```javascript
 gulp.watch("App/ng/**/*.js", function (event) {
