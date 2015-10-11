@@ -45,7 +45,7 @@ gulp.task("watch", function(){
 });
 ``` 
 
-1.Save all files from `App/build` to SharePoint:
+2.Save all files from `App/build` to SharePoint:
 ```
 gulp.task("spsave", function () {
 	return gulp.src(["App/build/*.*"])
@@ -58,7 +58,7 @@ gulp.task("spsave", function () {
 		}));
 });
 ```
-2.Watch all javascript file changes in `ng` (stands for angular) folder and upload that file automatically in SharePoint with preserved folder structure: 
+3.Watch all javascript file changes in `ng` (stands for angular) folder and upload that file automatically in SharePoint with preserved folder structure: 
 
 ```
 gulp.watch("App/ng/**/*.js", function (event) {
@@ -75,7 +75,7 @@ gulp.watch("App/ng/**/*.js", function (event) {
 ```  
 In this sample `base` will be equal to `App/ng`. If file path is `App/ng/controllers/HomeCtrl.js`, then it will saved under `AppAssets/controllers/HomeCtrl.js` (if some folders are missing, they will be created by `spsave` automatically). Next sample demonstrate how can you save it under `AppAssets/ng/controllers/HomeCtrl.js`  
 
-3.You can also explicitly provide `base` for `gulp.src`:  
+4.You can also explicitly provide `base` for `gulp.src`:  
 
 ```
 gulp.watch("App/ng/**/*.js", function (event) {
