@@ -46,7 +46,7 @@ gulp.task("watch", function(){
 ``` 
 
 2.Save all files from `App/build` to SharePoint:
-```
+```javascript
 gulp.task("spsave", function () {
 	return gulp.src(["App/build/*.*"])
 		.pipe($.spsave({
@@ -60,7 +60,7 @@ gulp.task("spsave", function () {
 ```
 3.Watch all javascript file changes in `ng` (stands for angular) folder and upload that file automatically in SharePoint with preserved folder structure: 
 
-```
+```javascript
 gulp.watch("App/ng/**/*.js", function (event) {
 		console.log(event.path);
 		gulp.src(event.path)
@@ -77,7 +77,7 @@ In this sample `base` will be equal to `App/ng`. If file path is `App/ng/control
 
 4.You can also explicitly provide `base` for `gulp.src`:  
 
-```
+```javascript
 gulp.watch("App/ng/**/*.js", function (event) {
 		console.log(event.path);
 		gulp.src(event.path, { base: "App" })
