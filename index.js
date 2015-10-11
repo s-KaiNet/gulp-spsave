@@ -13,28 +13,45 @@ function gulpspsave(options) {
 
 	return through.obj(function (file, enc, cb) {
 		if (file.isNull()) {
-			return cb();
+			cb(null, file);
+			return;
 		}
 
 		if (file.isStream()) {
-			this.emit('error', new PluginError(PLUGIN_NAME, 'Streaming not supported'));
-			return cb();
+			cb(new gutil.PluginError(PLUGIN_NAME, 'Streaming not supported'));
+			return;
 		}
 
 		if (file.isBuffer()) {
-			options.fileName = path.basename(file.path);
+			if(typeof options.flatten !== "boolean"){
+				options.flatten = true;
+			}
+			if (options.flatten){
+				options.fileName = path.basename(file.path);
+			} else {
+				var relative = path.relative(file.base, file.path);
+				options.fileName = path.basename(file.path);
+				var addFolder = relative.replace(options.fileName, "");
+				var destFolder = path.join(options.folder, addFolder).replace(/\\/g, '/');
+				options.folder = destFolder;
+			}
 			options.fileContent = file.contents.toString(enc);
-
+			var self = this;
 			spsave(options, function (err, data) {
 				if (err) {
 					console.log(err);
-					this.emit('error', new PluginError(PLUGIN_NAME, err.message));
+					cb(new gutil.PluginError(PLUGIN_NAME, err.message));
+					return;
 				}
-
-				return cb();
+				cb(null, file);
 			});
 		}
 	});
+}
+
+function randomIntFromInterval(min,max)
+{
+    return Math.floor(Math.random()*(max-min+1)+min);
 }
 
 module.exports = gulpspsave;
