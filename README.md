@@ -8,30 +8,19 @@ Install:
 
 `npm install gulp-spsave`  
 
-Usage:   
+Options:   
 ---
-Watch all javascript files and upload them automatically in a folder (library):
+Exactly the same as for [spsave](https://github.com/s-KaiNet/spsave), except: 
 
-```javascript
-var spsave = require("gulp-spsave"),
-	gulp = require("gulp");
+ - `fileName` - extracted by plugin automatically, no need to provide 
+ - `fileContent` - also extracted by plugin automatically, no need to provide
+ - `flatten` - boolean, default true, when true all files will be uploaded to `folder` provided for the spsave regardles of the file phisical location. For example, if folder equal to `MyAppAssets` and you are piped two files `app/controllers/HomeCtrl.js` and `app/templates/home.html`, then `MyAppAssets` will contain both `HomeCtrl.js` and `home.html` in the root.   
+	 If `flatten` is false, `gulp-spsave` will look for base for the file and will use this base for upload file in a particular folder (or create this folder automatically if required). See [gulp API docs](https://github.com/gulpjs/gulp/blob/master/docs/API.md), `gulp.src(globs[, options])` and [glob2base](https://github.com/contra/glob2base).   
 
+Examples:
+--    
 
-gulp.task("watch", function(){
-	gulp.watch("*.js", function(event){
-		gulp.src(event.path)
-		.pipe(spsave({
-			username: "[username]",
-			password: "[password]",
-			siteUrl: "[full site url]",
-			folder: "Shared Documents",
-			appWebUrl: "MyApp"
-		}));
-	});
-});
-```   
-
-Watch for file changes in scripts, then bundle, minify, whatever, and upload to SharePoint automatically:
+1.Watch for file changes in scripts, then bundle, minify, whatever, and upload to SharePoint automatically:
 
 ```javascript
 gulp.task("buildJS", function(){
@@ -54,22 +43,9 @@ gulp.task("copyToSharePoint", ["buildJS"], function(){
 gulp.task("watch", function(){
 	gulp.watch(["./Scripts/**/*.js"], ["copyToSharePoint"]);
 });
-```  
-  
-...and any other scenarious you need.
+``` 
 
-Options:   
----
-Exactly the same as for [spsave](https://github.com/s-KaiNet/spsave), except: 
-
- - `fileName` - extracted by plugin automatically, no need to provide 
- - `fileContent` - also extracted by plugin automatically, no need to provide
- - `flatten` - boolean, default true, when true all files will be uploaded to `folder` provided for the spsave regardles of the file phisical location. For example, if folder equal to `MyAppAssets` and you are piped two files `app/controllers/HomeCtrl.js` and `app/templates/home.html`, then `MyAppAssets` will contain both `HomeCtrl.js` and `home.html` in the root.   
-	 If `flatten` is false, `gulp-spsave` will look for base for the file and will use this base for upload file in a particular folder (or create this folder automatically if required). See [gulp API docs](https://github.com/gulpjs/gulp/blob/master/docs/API.md), `gulp.src(globs[, options])` and [glob2base](https://github.com/contra/glob2base).   
-
-  Examples:
---    
-1. Save all files from `App/build` to SharePoint:
+1.Save all files from `App/build` to SharePoint:
 ```
 gulp.task("spsave", function () {
 	return gulp.src(["App/build/*.*"])
@@ -82,7 +58,7 @@ gulp.task("spsave", function () {
 		}));
 });
 ```
-2. Watch all javascript file changes in `ng` (stands for angular) folder and upload that file automatically in SharePoint with preserved folder structure: 
+2.Watch all javascript file changes in `ng` (stands for angular) folder and upload that file automatically in SharePoint with preserved folder structure: 
 
 ```
 gulp.watch("App/ng/**/*.js", function (event) {
@@ -97,8 +73,9 @@ gulp.watch("App/ng/**/*.js", function (event) {
 			}));
 	});
 ```  
-In this sample `base` will be equal to `App/ng`. If file path is `App/ng/controllers/HomeCtrl.js`, then it will saved under `AppAssets/controllers/HomeCtrl.js` (if some folders are missing, they will be created by `spsave` automatically). Next sample demonstrate how can you save it under `AppAssets/ng/controllers/HomeCtrl.js`
-3. You can also explicitly provide `base` for `gulp.src`:  
+In this sample `base` will be equal to `App/ng`. If file path is `App/ng/controllers/HomeCtrl.js`, then it will saved under `AppAssets/controllers/HomeCtrl.js` (if some folders are missing, they will be created by `spsave` automatically). Next sample demonstrate how can you save it under `AppAssets/ng/controllers/HomeCtrl.js`  
+
+3.You can also explicitly provide `base` for `gulp.src`:  
 
 ```
 gulp.watch("App/ng/**/*.js", function (event) {
@@ -113,6 +90,8 @@ gulp.watch("App/ng/**/*.js", function (event) {
 			}));
 	});
 ```  
-In this case file be saved under `AppAssets/ng/controllers/HomeCtrl.js` path. 
+In this case file be saved under `AppAssets/ng/controllers/HomeCtrl.js` path.   
+
+...and any other scenarious you need.
 
 For list of all options for the `spsave` refer to the [git hub repository](https://github.com/s-KaiNet/spsave).
