@@ -25,6 +25,8 @@ Examples:
 
 
 ```javascript
+//sensitive data stored in external file:
+var settings = require("./settings.js");
 gulp.task("buildJS", function(){
 	return gulp.src("./Scripts/**/*.js")
 	.pipe(concat())
@@ -51,6 +53,8 @@ gulp.task("watch", function(){
 ----------
 
 ```javascript
+//sensitive data stored in external file:
+var settings = require("./settings.js");
 gulp.task("spsave", function () {
 	return gulp.src(["App/build/*.*"])
 		.pipe($.spsave({
@@ -68,6 +72,8 @@ gulp.task("spsave", function () {
 
 
 ```javascript
+//sensitive data stored in external file:
+var settings = require("./settings.js");
 gulp.watch("App/ng/**/*.js", function (event) {
 		console.log(event.path);
 		gulp.src(event.path)
@@ -89,6 +95,8 @@ In this sample `base` will be equal to `App/ng`. If file path is `App/ng/control
  
 
 ```javascript
+//sensitive data stored in external file:
+var settings = require("./settings.js");
 gulp.watch("App/ng/**/*.js", function (event) {
 		console.log(event.path);
 		gulp.src(event.path, { base: "App" })
