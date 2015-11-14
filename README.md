@@ -120,7 +120,8 @@ Known Issues
 
 When heavily utilizing watchers along with gulp-spsave you may see errors "Save conflict" or "Cobalt error". [spsave](https://github.com/s-KaiNet/spsave) tries to recover from this errors by trying to re-upload file one or two more times again. But usually it's a good idea to use [gulp-plumber](https://github.com/floatdrop/gulp-plumber) or similar tool in order to make sure that your watchers will not be broken when errors occur.   
 Normally you can do the following in your gulpfile.js:   
-```javacript 
+
+```javascript 
 var plumber = require("gulp-plumber");
 var onError = function (err) {
 	console.log(err);
