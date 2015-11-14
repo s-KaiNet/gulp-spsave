@@ -113,4 +113,27 @@ In this case file be saved under `AppAssets/ng/controllers/HomeCtrl.js` path.
 
 ...and any other scenarious you need.
 
-For list of all options for the `spsave` refer to the [git hub repository](https://github.com/s-KaiNet/spsave).
+For list of all options for the `spsave` refer to the [git hub repository](https://github.com/s-KaiNet/spsave).  
+
+Known Issues
+--
+
+When heavily utilizing watchers along with gulp-spsave you may see errors "Save conflict" or "Cobalt error". [spsave](https://github.com/s-KaiNet/spsave) tries to recover from this errors by trying to re-upload file one or two more times again. But usually it's a good idea to use [gulp-plumber](https://github.com/floatdrop/gulp-plumber) or similar tool in order to make sure that your watchers will not be broken when errors occur.   
+Normally you can do the following in your gulpfile.js:   
+```javacript 
+var plumber = require("gulp-plumber");
+var onError = function (err) {
+	console.log(err);
+	this.emit("end");
+};
+gulp.watch(["App/index.html"], function (event) {
+		return gulp.src(event.path, { base: "App" })
+			.pipe(plumber({
+				errorHandler: onError
+			}))
+			.pipe(spsave(settings));
+	});
+
+```
+
+In case of error you watch will be up and running regardless the error. 
