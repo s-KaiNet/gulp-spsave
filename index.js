@@ -2,7 +2,8 @@ var spsave = require('spsave'),
     gutil = require('gulp-util'),
     PluginError = gutil.PluginError,
     path = require("path"),
-	through = require("through2");
+	through = require("through2"),
+	extend = require('util')._extend;
 
 var PLUGIN_NAME = 'gulp-spsave';
 
@@ -33,11 +34,12 @@ function gulpspsave(options) {
 				options.fileName = path.basename(file.path);
 				var addFolder = relative.replace(options.fileName, "");
 				var destFolder = path.join(options.folder, addFolder).replace(/\\/g, '/');
-				options.folder = destFolder;
+				var newOptions = extend({}, options);
+				newOptions.folder = destFolder;
 			}
-			options.fileContent = file.contents.toString(enc);
+			newOptions.fileContent = file.contents.toString(enc);
 			var self = this;
-			spsave(options, function (err, data) {
+			spsave(newOptions, function (err, data) {
 				if (err) {
 					console.log(err);
 					cb(new gutil.PluginError(PLUGIN_NAME, err.message));
