@@ -31,7 +31,7 @@ function gulpspsave(options) {
 			newOptions.fileName = path.basename(file.path);
 			if (!options.flatten){
 				var relative = path.relative(file.base, file.path);
-				var addFolder = relative.replace(options.fileName, "");
+				var addFolder = relative.replace(newOptions.fileName, "");
 				var destFolder = path.join(options.folder, addFolder).replace(/\\/g, '/');
 				newOptions.folder = destFolder;
 			}
