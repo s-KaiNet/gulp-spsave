@@ -27,14 +27,12 @@ function gulpspsave(options) {
 			if(typeof options.flatten !== "boolean"){
 				options.flatten = true;
 			}
-			if (options.flatten){
-				options.fileName = path.basename(file.path);
-			} else {
+			var newOptions = extend({}, options);
+			newOptions.fileName = path.basename(file.path);
+			if (!options.flatten){
 				var relative = path.relative(file.base, file.path);
-				options.fileName = path.basename(file.path);
 				var addFolder = relative.replace(options.fileName, "");
 				var destFolder = path.join(options.folder, addFolder).replace(/\\/g, '/');
-				var newOptions = extend({}, options);
 				newOptions.folder = destFolder;
 			}
 			newOptions.fileContent = file.contents.toString(enc);
