@@ -35,7 +35,7 @@ function gulpspsave(options) {
 				var destFolder = path.join(options.folder, addFolder).replace(/\\/g, '/');
 				newOptions.folder = destFolder;
 			}
-			newOptions.fileContent = file.contents.toString(enc);
+			newOptions.fileContent = file.contents;
 			var self = this;
 			spsave(newOptions, function (err, data) {
 				if (err) {
