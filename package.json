@@ -1,7 +1,7 @@
 {
   "name": "gulp-spsave",
   "description": "Gulp pluging for saving files in SharePoint.",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "author": {
     "name": "s-KaiNet",
     "url": "https://github.com/s-KaiNet"
