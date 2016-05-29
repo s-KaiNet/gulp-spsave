@@ -1,9 +1,10 @@
-var spsave = require('c:/Projects/spsave/lib/src/index').spsave,
+var spsave = require('spsave').spsave,
   gutil = require('gulp-util'),
   PluginError = gutil.PluginError,
   path = require("path"),
   through = require("through2"),
-  extend = require('util')._extend;
+  _ = require('lodash'),
+  notifier = require('node-notifier');
 
 var PLUGIN_NAME = 'gulp-spsave';
 
@@ -12,7 +13,15 @@ function gulpspsave(options) {
     throw new PluginError(PLUGIN_NAME, 'Missing options');
   }
 
-  return through.obj(function (file, enc, cb) {
+  var files = [];
+  var newOptions = _.defaults(_.assign({}, options), {
+    flatten: true
+  });
+  
+  var notify = options.notification;
+  newOptions.notification = false;
+
+  function uploadFile(file, enc, cb) {
     if (file.isNull()) {
       cb(null, file);
       return;
@@ -24,29 +33,54 @@ function gulpspsave(options) {
     }
 
     if (file.isBuffer()) {
-      if (typeof options.flatten !== "boolean") {
-        options.flatten = true;
+      if (options.flatten) {
+        file.base = null;
       }
-      var newOptions = extend({}, options);
-      newOptions.fileName = path.basename(file.path);
-      if (!options.flatten) {
-        var relative = path.relative(file.base, file.path);
-        var addFolder = relative.replace(newOptions.fileName, "");
-        var destFolder = path.join(options.folder, addFolder).replace(/\\/g, '/');
-        newOptions.folder = destFolder;
-      }
-      newOptions.fileContent = file.contents;
-      var self = this;
-      spsave(newOptions, function (err, data) {
-        if (err) {
-          console.log(err);
+
+      newOptions.file = file;
+      files.push(path.basename(file.path));
+      spsave(newOptions)
+        .then(function () {
+          cb(null, file);
+        })
+        .catch(function (err) {
           cb(new gutil.PluginError(PLUGIN_NAME, err.message));
           return;
-        }
-        cb(null, file);
-      });
+        });
     }
-  });
+  }
+
+  function endStream(cb) {
+
+    var showNotification = function (message, title) {
+      if (notify) {
+        notifier.notify({
+          title: title || 'spsave',
+          message: message,
+          icon: path.join(__dirname, 'assets/sp.png'),
+        }, function (err) {
+          if (err) {
+            cb(new gutil.PluginError(PLUGIN_NAME, err));
+            return;
+          }
+          
+          cb();
+        });
+      } else {
+        cb();
+      }
+    };
+
+    if (files.length > 1) {
+      showNotification(files.length + ' files successfully uploaded');
+    } else if (files.length === 1) {
+      showNotification('Successfully uploaded', 'spsave: ' + files[0]);
+    } else {
+      cb();
+    }
+  }
+
+  return through.obj(uploadFile, endStream);
 }
 
 module.exports = gulpspsave;
