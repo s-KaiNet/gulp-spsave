@@ -1,4 +1,8 @@
 # gulp-spsave
+
+[![NPM](https://nodei.co/npm/gulp-spsave.png?mini=true)](https://nodei.co/npm/gulp-spsave/)  
+[![npm version](https://badge.fury.io/js/gulp-spsave.svg)](https://badge.fury.io/js/gulp-spsave)
+
 Gulp plugin for [spsave](https://github.com/s-KaiNet/spsave) - save files in SharePoint using node.js easily. 
 
 ----------
