@@ -17,7 +17,7 @@ function gulpspsave(options) {
   var newOptions = _.defaults(_.assign({}, options), {
     flatten: true
   });
-  
+
   var notify = options.notification;
   newOptions.notification = false;
 
@@ -33,48 +33,55 @@ function gulpspsave(options) {
     }
 
     if (file.isBuffer()) {
-      if (options.flatten) {
+      if (newOptions.flatten) {
         file.base = null;
       }
 
       newOptions.file = file;
-      files.push(path.basename(file.path));
+      var fileName = path.basename(file.path);
+      files.push(fileName);
       spsave(newOptions)
         .then(function () {
           cb(null, file);
+          return null;
         })
         .catch(function (err) {
-          cb(new gutil.PluginError(PLUGIN_NAME, err.message));
+          if (notify) {
+            notifier.notify({
+              title: `spsave: ${fileName}: error occured`,
+              message: 'For details see console log',
+              icon: path.join(__dirname, 'assets/sp_error.png')
+            });
+          }
+          cb(new gutil.PluginError(PLUGIN_NAME, err));
           return;
         });
     }
   }
 
   function endStream(cb) {
+    var showNotification = function () {
+      notifier.notify({
+        title: `spsave: ${files.length} file(s) uploaded`,
+        message: files.join(', '),
+        icon: path.join(__dirname, 'assets/sp.png')
+      }, function (err) {
+        if (err) {
+          cb(new gutil.PluginError(PLUGIN_NAME, err));
+          return;
+        }
 
-    var showNotification = function (message, title) {
-      if (notify) {
-        notifier.notify({
-          title: title || 'spsave',
-          message: message,
-          icon: path.join(__dirname, 'assets/sp.png'),
-        }, function (err) {
-          if (err) {
-            cb(new gutil.PluginError(PLUGIN_NAME, err));
-            return;
-          }
-          
-          cb();
-        });
-      } else {
         cb();
-      }
+      });
+
     };
 
-    if (files.length > 1) {
-      showNotification(files.length + ' files successfully uploaded');
-    } else if (files.length === 1) {
-      showNotification('Successfully uploaded', 'spsave: ' + files[0]);
+    if (files.length > 0 && notify) {
+      try {
+        showNotification();
+      } catch (err) {
+        cb(new gutil.PluginError(PLUGIN_NAME, err));
+      }
     } else {
       cb();
     }

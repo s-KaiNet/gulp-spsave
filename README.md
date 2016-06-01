@@ -1,21 +1,38 @@
 # gulp-spsave
-Gulp plugin for saving files inside SharePoint. 
+Gulp plugin for [spsave](https://github.com/s-KaiNet/spsave) - save files in SharePoint using node.js easily. 
 
 ----------
 
 Install: 
 ---
 
-`npm install gulp-spsave`  
+`npm install gulp-spsave --save-dev`  
 
 Options:   
 ---
-Exactly the same as for [spsave](https://github.com/s-KaiNet/spsave), except: 
+Exactly the same as for [spsave](https://github.com/s-KaiNet/spsave), except file content options (because the file is piped through the gulp stream).  
+That means no need to provide such options as `fileName`, `fileContent`, `glob`, `file`, `base` (`base` can be provided for the `gulp.src`, see samples below).  
+It's recommened to take a look at the [spsave](https://github.com/s-KaiNet/spsave) page to have better understanding.
 
- - `fileName` - extracted by plugin automatically, no need to provide 
- - `fileContent` - also extracted by plugin automatically, no need to provide
+#### Common options (passed to `spsave`):
+- `siteUrl` - required, string url of the site
+- `username` - required, string user name
+- `password` - required, string password
+- `domain` - for on premise only, string domain name, for SharePoint on-premise it's better to provide domain or workstation option explicitly
+- `workstation` - for on premise only, string workstation name
+- `checkin` - optional, boolean to allow the files to be checked in/published.
+- `checkinType` - optional number, used when `checkin` options is true.
+    - `0` - minor
+    - `1` - major
+    - `2` - overwrite
+- `checkinMessage` - optional string, you can provide your own checkin message
+- `notification` - optional boolean, when true, `spsave` will notify about successful upload using [node-notifier](https://github.com/mikaelbr/node-notifier) module.
+
+#### Options specific for `gulp-spsave`:
+
  - `flatten` - boolean, default true, when true all files will be uploaded to `folder` provided for the spsave regardles of the file phisical location. For example, if folder equal to `MyAppAssets` and you are piped two files `app/controllers/HomeCtrl.js` and `app/templates/home.html`, then `MyAppAssets` will contain both `HomeCtrl.js` and `home.html` in the root.   
 	 If `flatten` is false, `gulp-spsave` will look for base for the file and will use this base for upload file in a particular folder (or create this folder automatically if required). See [gulp API docs](https://github.com/gulpjs/gulp/blob/master/docs/API.md), `gulp.src(globs[, options])` and [glob2base](https://github.com/contra/glob2base).   
+
 
 Examples:
 --    
@@ -114,6 +131,11 @@ In this case file be saved under `AppAssets/ng/controllers/HomeCtrl.js` path.
 ...and any other scenarious you need.
 
 For list of all options for the `spsave` refer to the [git hub repository](https://github.com/s-KaiNet/spsave).  
+
+## Integration testing:
+1. Rename file `/test/integration/config.sample.js` to `config.js`.
+2. Update information in `config.js` with appropriate values (urls, credentials, environment).
+3. Run `npm run test-int`.
 
 Known Issues
 --
