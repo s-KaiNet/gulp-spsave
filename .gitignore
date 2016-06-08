@@ -1,2 +1,5 @@
 **/node_modules
 test/integration/config.js
+test/performance/files/SiteAssets/**
+test/performance/output/**
+test/performance/config.js
