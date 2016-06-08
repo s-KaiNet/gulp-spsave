@@ -33,6 +33,7 @@ function gulpspsave(options) {
     }
 
     if (file.isBuffer()) {
+      var oldBase = file.base;
       if (newOptions.flatten) {
         file.base = null;
       }
@@ -42,6 +43,7 @@ function gulpspsave(options) {
       files.push(fileName);
       spsave(newOptions)
         .then(function () {
+          file.base = oldBase;
           cb(null, file);
           return null;
         })

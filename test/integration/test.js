@@ -153,6 +153,27 @@ tests.forEach(function (test) {
             .catch(done);
         });
     });
+    
+    it('should not throw an error when processing file further in pipes', function (done) {
+      this.timeout(10 * 1000);
+
+      var fileContent = fs.readFileSync('test/integration/files/spsave.txt');
+      var folder = 'SiteAssets/files';
+
+      gulp.src('test/integration/files/*.*', { base: 'test' })
+        .pipe(spsave({
+          siteUrl: test.url,
+          username: test.creds.username,
+          password: test.creds.password,
+          domain: test.env.domain,
+          folder: folder,
+          flatten: true
+        }))
+        .pipe(gulp.dest('./test'))
+        .on('finish', function () {
+          done();
+        });
+    });
   });
 });
 
