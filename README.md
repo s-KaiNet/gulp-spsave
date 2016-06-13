@@ -31,6 +31,9 @@ It's recommened to take a look at the [spsave](https://github.com/s-KaiNet/spsav
     - `2` - overwrite
 - `checkinMessage` - optional string, you can provide your own checkin message
 - `notification` - optional boolean, when true, `spsave` will notify about successful upload using [node-notifier](https://github.com/mikaelbr/node-notifier) module.
+- `filesMetaData` - optional, array of `IFileMetaData`: 
+    - `fileName` - required, string file name
+    - `metadata` - metadata object 
 
 #### Options specific for `gulp-spsave`:
 
@@ -96,7 +99,6 @@ gulp.task("spsave", function () {
 //sensitive data stored in external file:
 var settings = require("./settings.js");
 gulp.watch("App/ng/**/*.js", function (event) {
-		console.log(event.path);
 		gulp.src(event.path)
 			.pipe($.spsave({
 				siteUrl: settings.siteUrl,
@@ -111,15 +113,12 @@ In this sample `base` will be equal to `App/ng`. If file path is `App/ng/control
 
 4.You can also explicitly provide `base` for `gulp.src`: 
 
-
 ----------
  
-
 ```javascript
 //sensitive data stored in external file:
 var settings = require("./settings.js");
 gulp.watch("App/ng/**/*.js", function (event) {
-		console.log(event.path);
 		gulp.src(event.path, { base: "App" })
 			.pipe($.spsave({
 				siteUrl: settings.siteUrl,
@@ -132,6 +131,43 @@ gulp.watch("App/ng/**/*.js", function (event) {
 ```  
 In this case file be saved under `AppAssets/ng/controllers/HomeCtrl.js` path.   
 
+5.Upload search display template with metadata:
+
+----------
+
+```javascript
+//sensitive data stored in external file:
+var settings = require("./settings.js");
+gulp.watch("App/search/Item_Display.js", function (event) {
+		gulp.src(event.path)
+			.pipe($.spsave({
+				siteUrl: settings.siteUrl,
+				username: settings.username,
+				password: settings.password,
+				folder: "_catalogs/masterpage/Display Templates/Search",
+				flatten: true,
+				filesMetaData: [{
+					fileName: "Item_Display.js",
+					metadata: {
+						"__metadata": { type: "SP.Data.OData__x005f_catalogs_x002f_masterpageItem" },
+						Title: "SPSave Display Template",
+						DisplayTemplateLevel: "Item",
+						TargetControlType: {
+							"__metadata": {
+								"type": "Collection(Edm.String)"
+							},
+							"results": [
+								"SearchResults"
+							]
+						},
+						ManagedPropertyMapping: `'Title':'Title','Path':'Path','Description':'Description'`,
+						ContentTypeId: "0x0101002039C03B61C64EC4A04F5361F38510660500A0383064C59087438E649B7323C95AF6",
+						TemplateHidden: false
+					}
+				}]
+			}));
+	});
+```  
 ...and any other scenarious you need.
 
 For list of all options for the `spsave` refer to the [git hub repository](https://github.com/s-KaiNet/spsave).  

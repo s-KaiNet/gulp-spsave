@@ -124,7 +124,7 @@ tests.forEach(function (test) {
             .catch(done);
         });
     });
-    
+
     it('should upload file into the folder with base option and flatten', function (done) {
       this.timeout(10 * 1000);
 
@@ -153,7 +153,7 @@ tests.forEach(function (test) {
             .catch(done);
         });
     });
-    
+
     it('should not throw an error when processing file further in pipes', function (done) {
       this.timeout(10 * 1000);
 
@@ -172,6 +172,40 @@ tests.forEach(function (test) {
         .pipe(gulp.dest('./test'))
         .on('finish', function () {
           done();
+        });
+    });
+
+    it('should update metadata', function (done) {
+      this.timeout(10 * 1000);
+      var fileName = 'index.js';
+      var fileContent = fs.readFileSync(fileName);
+      var folder = 'SiteAssets/files';
+      var title = 'updated by spsave';
+
+      gulp.src(fileName)
+        .pipe(spsave({
+          siteUrl: test.url,
+          username: test.creds.username,
+          password: test.creds.password,
+          domain: test.env.domain,
+          folder: folder,
+          filesMetaData: [{
+            fileName: fileName,
+            metadata: {
+              '__metadata': { type: 'SP.Data.SiteAssetsItem' },
+              Title: title
+            }
+          }]
+        }))
+        .on('finish', function () {
+          var fileRelativeUrl = `${path}/${folder}/${fileName}`;
+
+          spr.get(`${test.url}/_api/web/GetFileByServerRelativeUrl(@FileUrl)` +
+            `?@FileUrl='${encodeURIComponent(fileRelativeUrl)}'`).then(data => {
+              expect(data.body.d.Title).to.equal(title);
+              done();
+            })
+            .catch(done);
         });
     });
   });
