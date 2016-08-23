@@ -43,6 +43,16 @@ It's recommened to take a look at the [spsave](https://github.com/s-KaiNet/spsav
 
 Examples:
 --    
+
+Imagine we have `settings.js` which stores all sensitive information for us: 
+```javascript
+module.exports = {
+    siteUrl: "[site url]",
+    username: "[user]",
+    password: "[pass]"
+}
+```
+
 1.Watch for file changes in scripts, then bundle, minify, whatever, and upload to SharePoint automatically:
 
 ----------
