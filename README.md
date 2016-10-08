@@ -25,7 +25,7 @@ gulp.task("default", function(){
 ```
 
 ## Options:   
----
+
 Exactly the same as for [spsave](https://github.com/s-KaiNet/spsave), except file content options (because the file is piped through the gulp stream).  
 That means no need to provide such options as `fileName`, `fileContent`, `glob`, `file`, `base` (`base` can be provided for the `gulp.src`, see samples below).  
 It's recommended to take a look at the [spsave](https://github.com/s-KaiNet/spsave) page to have better understanding.
@@ -36,7 +36,7 @@ The same as for [spsave core options](https://github.com/s-KaiNet/spsave#core-op
  - `flatten` - boolean, default true, when true all files will be uploaded to `folder` provided, regardles of the file phisical location. For example, if folder equal to `MyAppAssets` and you are piped two files `app/controllers/HomeCtrl.js` and `app/templates/home.html`, then `MyAppAssets` will contain both `HomeCtrl.js` and `home.html` in the root.   
 	 If `flatten` is false, `gulp-spsave` will look for base for the file and will use this base for upload file in a particular folder (or create this folder automatically if required). See [gulp API docs](https://github.com/gulpjs/gulp/blob/master/docs/API.md), `gulp.src(globs[, options])` and [glob2base](https://github.com/contra/glob2base).   
 
-#### Credential options:
+#### Credentials:
 
 `gulp-spsave` implicitly depends on another module used for SharePoint authentication from node js - [node-sp-auth](https://github.com/s-KaiNet/node-sp-auth). For credentials param you need to pass exactly the same object, as for `node-sp-auth` [credentialsOptions object](https://github.com/s-KaiNet/node-sp-auth#params). That also means that `gulp-spsave` supports all authentication options supported by `node-sp-auth`. See examples below for more info. 
 
@@ -85,7 +85,7 @@ gulp.task("watch", function(){
 
 ```javascript
 //sensitive data stored in external file:
-var settings = require("./settings.js");
+var creds = require("./settings.js");
 gulp.task("spsave", function () {
 	return gulp.src(["App/build/*.*"])
 		.pipe($.spsave({
@@ -102,7 +102,7 @@ gulp.task("spsave", function () {
 
 ```javascript
 //sensitive data stored in external file:
-var settings = require("./settings.js");
+var creds = require("./settings.js");
 gulp.watch("App/ng/**/*.js", function (event) {
 		gulp.src(event.path)
 			.pipe($.spsave({
@@ -120,7 +120,7 @@ In this sample `base` will be equal to `App/ng`. If file path is `App/ng/control
  
 ```javascript
 //sensitive data stored in external file:
-var settings = require("./settings.js");
+var creds = require("./settings.js");
 gulp.watch("App/ng/**/*.js", function (event) {
 		gulp.src(event.path, { base: "App" })
 			.pipe($.spsave({
@@ -138,7 +138,7 @@ In this case file be saved under `AppAssets/ng/controllers/HomeCtrl.js` path.
 
 ```javascript
 //sensitive data stored in external file:
-var settings = require("./settings.js");
+var creds = require("./settings.js");
 gulp.watch("App/search/Item_Display.js", function (event) {
 		gulp.src(event.path)
 			.pipe($.spsave({
