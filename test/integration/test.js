@@ -29,6 +29,11 @@ var tests = [
     name: 'online addin only',
     creds: config.onlineAddinOnly,
     url: config.onlineUrl
+  },
+  {
+    name: 'adfs user credentials',
+    creds: config.adfsCredentials,
+    url: config.onpremAdfsEnabledUrl
   }
 ];
 

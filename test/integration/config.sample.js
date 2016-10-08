@@ -26,3 +26,10 @@ exports.onlineAddinOnly = {
   clientSecret: '[clientSecret]',
   realm: '[realm]'
 };
+
+exports.adfsCredentials = {
+  username: '[username]',
+  password: '[password]',
+  relyingParty: '[relying party]',
+  adfsUrl: '[adfs url]'
+};
