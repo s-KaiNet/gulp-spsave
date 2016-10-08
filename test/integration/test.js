@@ -11,25 +11,33 @@ var expect = require('chai').expect,
 
 var tests = [
   {
-    name: 'on-premise',
-    creds: config.onprem,
-    env: config.env,
-    url: config.url.onprem
+    name: 'on-premise user credentials',
+    creds: config.onpremCreds,
+    url: config.onpremNtlmEnabledUrl
   },
   {
-    name: 'online',
-    creds: config.online,
-    env: {},
-    url: config.url.online
+    name: 'on-premise addin only',
+    creds: config.onpremAddinOnly,
+    url: config.onpremAdfsEnabledUrl
+  },
+  {
+    name: 'online user credentials',
+    creds: config.onlineCreds,
+    url: config.onlineUrl
+  },
+  {
+    name: 'online addin only',
+    creds: config.onlineAddinOnly,
+    url: config.onlineUrl
   }
 ];
 
 tests.forEach(function (test) {
   describe(`spsave: integration tests - ${test.name}`, function () {
-    var spr = sprequest.create({ username: test.creds.username, password: test.creds.password }, { domain: test.env.domain });
+    var spr = sprequest.create(test.creds);
 
     beforeEach('delete folders', function (done) {
-      this.timeout(10 * 1000);
+      this.timeout(30 * 1000);
 
       spr.requestDigest(test.url)
         .then(digest => {
@@ -48,7 +56,7 @@ tests.forEach(function (test) {
     });
 
     after('cleaning', function (done) {
-      this.timeout(10 * 1000);
+      this.timeout(30 * 1000);
 
       spr.requestDigest(test.url)
         .then(digest => {
@@ -69,7 +77,7 @@ tests.forEach(function (test) {
     var path = (url.parse(test.url).path).replace(/(\/$)|(\\$)/, '');
 
     it('should upload file into the folder', function (done) {
-      this.timeout(10 * 1000);
+      this.timeout(30 * 1000);
       var fileName = 'index.js';
       var fileContent = fs.readFileSync(fileName);
       var folder = 'SiteAssets/files';
@@ -77,11 +85,8 @@ tests.forEach(function (test) {
       gulp.src(fileName)
         .pipe(spsave({
           siteUrl: test.url,
-          username: test.creds.username,
-          password: test.creds.password,
-          domain: test.env.domain,
           folder: folder
-        }))
+        }, test.creds))
         .on('finish', function () {
           var fileRelativeUrl = `${path}/${folder}/${fileName}`;
 
@@ -97,7 +102,7 @@ tests.forEach(function (test) {
     });
 
     it('should upload file into the folder with automatic base option', function (done) {
-      this.timeout(10 * 1000);
+      this.timeout(30 * 1000);
 
       var fileContent = fs.readFileSync('test/integration/files/spsave.txt');
       var folder = 'SiteAssets/files';
@@ -105,12 +110,9 @@ tests.forEach(function (test) {
       gulp.src('test/integration/files/*.*', { base: 'test' })
         .pipe(spsave({
           siteUrl: test.url,
-          username: test.creds.username,
-          password: test.creds.password,
-          domain: test.env.domain,
           folder: folder,
           flatten: false
-        }))
+        }, test.creds))
         .on('finish', function () {
           var fileRelativeUrl = `${path}/${folder}/integration/files/spsave.txt`;
 
@@ -126,7 +128,7 @@ tests.forEach(function (test) {
     });
 
     it('should upload file into the folder with base option and flatten', function (done) {
-      this.timeout(10 * 1000);
+      this.timeout(30 * 1000);
 
       var fileContent = fs.readFileSync('test/integration/files/spsave.txt');
       var folder = 'SiteAssets/files';
@@ -134,12 +136,9 @@ tests.forEach(function (test) {
       gulp.src('test/integration/files/*.*', { base: 'test' })
         .pipe(spsave({
           siteUrl: test.url,
-          username: test.creds.username,
-          password: test.creds.password,
-          domain: test.env.domain,
           folder: folder,
           flatten: true
-        }))
+        }, test.creds))
         .on('finish', function () {
           var fileRelativeUrl = `${path}/${folder}/spsave.txt`;
 
@@ -155,7 +154,7 @@ tests.forEach(function (test) {
     });
 
     it('should not throw an error when processing file further in pipes', function (done) {
-      this.timeout(10 * 1000);
+      this.timeout(30 * 1000);
 
       var fileContent = fs.readFileSync('test/integration/files/spsave.txt');
       var folder = 'SiteAssets/files';
@@ -163,12 +162,9 @@ tests.forEach(function (test) {
       gulp.src('test/integration/files/*.*', { base: 'test' })
         .pipe(spsave({
           siteUrl: test.url,
-          username: test.creds.username,
-          password: test.creds.password,
-          domain: test.env.domain,
           folder: folder,
           flatten: true
-        }))
+        }, test.creds))
         .pipe(gulp.dest('./test'))
         .on('finish', function () {
           done();
@@ -176,7 +172,7 @@ tests.forEach(function (test) {
     });
 
     it('should update metadata', function (done) {
-      this.timeout(10 * 1000);
+      this.timeout(30 * 1000);
       var fileName = 'index.js';
       var fileContent = fs.readFileSync(fileName);
       var folder = 'SiteAssets/files';
@@ -185,9 +181,6 @@ tests.forEach(function (test) {
       gulp.src(fileName)
         .pipe(spsave({
           siteUrl: test.url,
-          username: test.creds.username,
-          password: test.creds.password,
-          domain: test.env.domain,
           folder: folder,
           filesMetaData: [{
             fileName: fileName,
@@ -196,7 +189,7 @@ tests.forEach(function (test) {
               Title: title
             }
           }]
-        }))
+        }, test.creds))
         .on('finish', function () {
           var fileRelativeUrl = `${path}/${folder}/${fileName}`;
 

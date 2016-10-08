@@ -8,17 +8,17 @@ var spsave = require('spsave').spsave,
 
 var PLUGIN_NAME = 'gulp-spsave';
 
-function gulpspsave(options) {
-  if (!options) {
-    throw new PluginError(PLUGIN_NAME, 'Missing options');
+function gulpspsave(coreOptions, creds) {
+  if (!coreOptions || !creds) {
+    throw new PluginError(PLUGIN_NAME, 'Missing parameters');
   }
 
   var files = [];
-  var newOptions = _.defaults(_.assign({}, options), {
+  var newOptions = _.defaults(_.assign({}, coreOptions), {
     flatten: true
   });
 
-  var notify = options.notification;
+  var notify = coreOptions.notification;
   newOptions.notification = false;
 
   function uploadFile(file, enc, cb) {
@@ -38,10 +38,12 @@ function gulpspsave(options) {
         file.base = null;
       }
 
-      newOptions.file = file;
       var fileName = path.basename(file.path);
       files.push(fileName);
-      spsave(newOptions)
+      spsave(newOptions, creds, {
+        file: file, 
+        folder: newOptions.folder
+      })
         .then(function () {
           file.base = oldBase;
           cb(null, file);
