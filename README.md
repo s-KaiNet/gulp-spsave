@@ -1,4 +1,4 @@
-# gulp-spsave
+# gulp-spsave [![analytics](http://www.google-analytics.com/collect?v=1&t=pageview&tid=UA-87971440-2&cid=295bee38-a9c9-4c4e-89a4-6fb4da86522b&dl=https%3A%2F%2Fgithub.com%2Fs-KaiNet%2Fgulp-spsave)]()
 
 [![NPM](https://nodei.co/npm/gulp-spsave.png?mini=true)](https://nodei.co/npm/gulp-spsave/)  
 [![npm version](https://badge.fury.io/js/gulp-spsave.svg)](https://badge.fury.io/js/gulp-spsave)
