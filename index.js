@@ -9,7 +9,7 @@ var spsave = require('spsave').spsave,
 var PLUGIN_NAME = 'gulp-spsave';
 
 function gulpspsave(coreOptions, creds) {
-  if (!coreOptions || !creds) {
+  if (!coreOptions) {
     throw new PluginError(PLUGIN_NAME, 'Missing parameters');
   }
 
