@@ -1,11 +1,8 @@
 {
   "name": "gulp-spsave",
   "description": "Gulp pluging for saving files in SharePoint.",
-  "version": "3.1.0",
-  "author": {
-    "name": "s-KaiNet",
-    "url": "https://github.com/s-KaiNet"
-  },
+  "version": "3.1.1",
+  "author": "Sergei Sergeev <sergeev.srg@gmail.com> (https://github.com/s-KaiNet)",
   "engines": {
     "node": ">=4.0.0"
   },
@@ -27,10 +24,10 @@
     }
   ],
   "dependencies": {
-    "gulp-util": "^3.0.6",
     "lodash": "^4.13.1",
     "node-notifier": "^4.6.0",
     "path": "^0.11.14",
+    "plugin-error": "^1.0.1",
     "spsave": "^3.1.0",
     "through2": "2.0.0"
   },

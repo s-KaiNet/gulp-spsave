@@ -1,6 +1,5 @@
 var spsave = require('spsave').spsave,
-  gutil = require('gulp-util'),
-  PluginError = gutil.PluginError,
+  PluginError = require('plugin-error'),
   path = require("path"),
   through = require("through2"),
   _ = require('lodash'),
@@ -28,7 +27,7 @@ function gulpspsave(coreOptions, creds) {
     }
 
     if (file.isStream()) {
-      cb(new gutil.PluginError(PLUGIN_NAME, 'Streaming not supported'));
+      cb(new PluginError(PLUGIN_NAME, 'Streaming not supported'));
       return;
     }
 
@@ -57,7 +56,7 @@ function gulpspsave(coreOptions, creds) {
               icon: path.join(__dirname, 'assets/sp_error.png')
             });
           }
-          cb(new gutil.PluginError(PLUGIN_NAME, err));
+          cb(new PluginError(PLUGIN_NAME, err, { showStack: true }));
           return;
         });
     }
@@ -71,7 +70,7 @@ function gulpspsave(coreOptions, creds) {
         icon: path.join(__dirname, 'assets/sp.png')
       }, function (err) {
         if (err) {
-          cb(new gutil.PluginError(PLUGIN_NAME, err));
+          cb(new PluginError(PLUGIN_NAME, err, { showStack: true }));
           return;
         }
 
@@ -84,7 +83,7 @@ function gulpspsave(coreOptions, creds) {
       try {
         showNotification();
       } catch (err) {
-        cb(new gutil.PluginError(PLUGIN_NAME, err));
+        cb(new PluginError(PLUGIN_NAME, err, { showStack: true }));
       }
     } else {
       cb();
