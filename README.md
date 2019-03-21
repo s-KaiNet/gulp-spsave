@@ -35,7 +35,7 @@ It's recommended to take a look at the [spsave](https://github.com/s-KaiNet/spsa
 #### Core options (passed to `spsave`):
 The same as for [spsave core options](https://github.com/s-KaiNet/spsave#core-options) plus two additional exclusive to `gulp-spsave`:
  - `folder` - required string, SharePoint folder to upload file to (can be the url to document library)
- - `flatten` - boolean, default true, when true all files will be uploaded to `folder` provided, regardles of the file phisical location. For example, if folder equal to `MyAppAssets` and you are piped two files `app/controllers/HomeCtrl.js` and `app/templates/home.html`, then `MyAppAssets` will contain both `HomeCtrl.js` and `home.html` in the root.   
+ - `flatten` - boolean, default true, when true all files will be uploaded to `folder` provided, regardles of the file physical location. For example, if folder equal to `MyAppAssets` and you are piped two files `app/controllers/HomeCtrl.js` and `app/templates/home.html`, then `MyAppAssets` will contain both `HomeCtrl.js` and `home.html` in the root.   
 	 If `flatten` is false, `gulp-spsave` will look for base for the file and will use this base for upload file in a particular folder (or create this folder automatically if required). See [gulp API docs](https://github.com/gulpjs/gulp/blob/master/docs/API.md), `gulp.src(globs[, options])` and [glob2base](https://github.com/contra/glob2base).   
 
 #### Credentials:
