@@ -30,12 +30,12 @@ gulp.task("default", function(){
 
 Exactly the same as for [spsave](https://github.com/s-KaiNet/spsave), except file content options (because the file is piped through the gulp stream).  
 That means no need to provide such options as `fileName`, `fileContent`, `glob`, `file`, `base` (`base` can be provided for the `gulp.src`, see samples below).  
-It's recommended to take a look at the [spsave](https://github.com/s-KaiNet/spsave) page to have better understanding.
+I recommend you look at the [spsave](https://github.com/s-KaiNet/spsave) page to get a better understanding.
 
 #### Core options (passed to `spsave`):
-The same as for [spsave core options](https://github.com/s-KaiNet/spsave#core-options) plus two additional exclusive to `gulp-spsave`:
+The same as for [spsave core options](https://github.com/s-KaiNet/spsave#core-options) plus two additional options exclusive to `gulp-spsave`:
  - `folder` - required string, SharePoint folder to upload file to (can be the url to document library)
- - `flatten` - boolean, default true, when true all files will be uploaded to `folder` provided, regardles of the file physical location. For example, if folder equal to `MyAppAssets` and you are piped two files `app/controllers/HomeCtrl.js` and `app/templates/home.html`, then `MyAppAssets` will contain both `HomeCtrl.js` and `home.html` in the root.   
+ - `flatten` - boolean, default true, when true all files will be uploaded to `folder` provided, regardles of the file physical location. For example, if folder equal to `MyAppAssets` and you pipe two files `app/controllers/HomeCtrl.js` and `app/templates/home.html`, then `MyAppAssets` will contain both `HomeCtrl.js` and `home.html` in the root.   
 	 If `flatten` is false, `gulp-spsave` will look for base for the file and will use this base for upload file in a particular folder (or create this folder automatically if required). See [gulp API docs](https://github.com/gulpjs/gulp/blob/master/docs/API.md), `gulp.src(globs[, options])` and [glob2base](https://github.com/contra/glob2base).   
 
 #### Credentials:
@@ -182,7 +182,7 @@ For list of all options for the `spsave` refer to the [git hub repository](https
 Known Issues
 --
 
-When heavily utilizing watchers along with `gulp-spsave` you may see errors "Save conflict" or "Cobalt error". [spsave](https://github.com/s-KaiNet/spsave) tries to recover from this errors by trying to re-upload file one or two more times again. But usually it's a good idea to use [gulp-plumber](https://github.com/floatdrop/gulp-plumber) or similar tool in order to make sure that your watchers will not be broken when errors occur.   
+When heavily utilizing watchers along with `gulp-spsave` you may see errors "Save conflict" or "Cobalt error". [spsave](https://github.com/s-KaiNet/spsave) tries to recover from these errors by trying to re-upload the file once or twice again. But usually it's a good idea to use [gulp-plumber](https://github.com/floatdrop/gulp-plumber) or similar tool in order to make sure that your watchers will not be broken when errors occur.   
 Normally you can do the following in your `gulpfile.js`:   
 
 ```javascript 
@@ -201,4 +201,4 @@ gulp.watch(["App/index.html"], function (event) {
 
 ```
 
-In case of error you watch will be up and running regardless the error. 
+In case of error, your watch will remain up and running regardless of the error. 
