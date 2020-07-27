@@ -2,7 +2,8 @@ var spsave = require('spsave').spsave,
   PluginError = require('plugin-error'),
   path = require("path"),
   through = require("through2"),
-  _ = require('lodash'),
+  defaults = require('lodash.defaults'),
+  assign = require('lodash.assign'),
   notifier = require('node-notifier');
 
 var PLUGIN_NAME = 'gulp-spsave';
@@ -13,7 +14,7 @@ function gulpspsave(coreOptions, creds) {
   }
 
   var files = [];
-  var newOptions = _.defaults(_.assign({}, coreOptions), {
+  var newOptions = defaults(assign({}, coreOptions), {
     flatten: true
   });
 

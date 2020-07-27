@@ -97,7 +97,7 @@ tests.forEach(function (test) {
 
           spr.get(`${test.url}/_api/web/GetFileByServerRelativeUrl(@FileUrl)/$value` +
             `?@FileUrl='${encodeURIComponent(fileRelativeUrl)}'`, {
-              encoding: null
+              responseType: 'buffer'
             }).then(data => {
               expect(fileContent.equals(data.body)).is.true;
               done();
@@ -123,7 +123,7 @@ tests.forEach(function (test) {
 
           spr.get(`${test.url}/_api/web/GetFileByServerRelativeUrl(@FileUrl)/$value` +
             `?@FileUrl='${encodeURIComponent(fileRelativeUrl)}'`, {
-              encoding: null
+              responseType: 'buffer'
             }).then(data => {
               expect(fileContent.equals(data.body)).is.true;
               done();
@@ -149,7 +149,7 @@ tests.forEach(function (test) {
 
           spr.get(`${test.url}/_api/web/GetFileByServerRelativeUrl(@FileUrl)/$value` +
             `?@FileUrl='${encodeURIComponent(fileRelativeUrl)}'`, {
-              encoding: null
+              responseType: 'buffer'
             }).then(data => {
               expect(fileContent.equals(data.body)).is.true;
               done();
